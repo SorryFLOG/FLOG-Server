@@ -1,0 +1,20 @@
+:root {
+    --theme-accent: rgb(234, 113, 167);
+    --theme-accent-text: rgb(255, 0, 163);
+    --theme-accent-dark: rgb(134, 64, 102);
+    --theme-accent-stroke: rgb(98, 46, 60);
+    --theme-btn-text: rgb(36, 10, 20);
+    --theme-accent-rgb: 234, 113, 167;
+    --theme-accent-text-rgb: 255, 0, 163;
+}
+
+.panel-bg,
+.panel-glow,
+.arrow img {
+    filter: hue-rotate(125deg);
+}
+
+.arrow--next img {
+    filter: hue-rotate(125deg);
+    transform: scaleX(-1);
+}

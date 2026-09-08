@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Rajdhani:wght@600;700&display=swap');
+@property --rpm-angle { syntax:'<angle>'; inherits:true; initial-value:0deg; }
+:root { --accent:#66e3ff; --health:#ff5576; --armor:#6aa8ff; --hunger:#ffbd59; --thirst:#55d6c2; --stamina:#b38cff; --oxygen:#68d8ff; --ui-background:#0c1f37; --ui-backgroundDeep:#051122; --ui-surface:linear-gradient(135deg,rgba(12,31,55,.94),rgba(5,17,34,.92)); --ui-text:#f5f8ff; --ui-muted:#8fa0b8; --ui-border:rgba(105,172,235,.2); --ui-shadow:0 10px 28px rgba(0,0,0,.3),inset 0 1px rgba(153,210,255,.06); --ui-radius:16px; --safe-x:2vw; --safe-y:3vh; font-family:Inter,Arial,sans-serif; color:var(--ui-text); }
+* { box-sizing:border-box; }
+body { margin:0; width:100vw; height:100vh; overflow:hidden; background:transparent; user-select:none; }
+.glass { background:var(--ui-surface); border:1px solid var(--ui-border); box-shadow:var(--ui-shadow); }
+.hud { opacity:1; transition:opacity .22s ease; }
+.hud.is-hidden { opacity:0; }
+.hidden { display:none!important; }
+.settings-hidden { display:none!important; }
+.map-frame { position:absolute; z-index:2; bottom:2.4vh; left:var(--safe-x); width:290px; height:205px; pointer-events:none; background:rgba(7,27,50,.1); border:1px solid rgba(105,184,240,.28); border-radius:14px; box-shadow:inset 0 0 18px rgba(3,13,27,.08),0 8px 24px rgba(0,0,0,.12); transform:translate(var(--map-offset-x,0),var(--map-offset-y,0)); }
+.map-frame::after,.map-frame span,.map-frame>i { display:none; }
+.identity,.economy,.location { position:absolute; display:flex; align-items:center; }
+.identity { top:var(--safe-y); right:var(--safe-x); gap:11px; min-width:245px; height:64px; padding:9px 12px; border-radius:16px; transform:translate(var(--drag-x,0),var(--drag-y,0)) scale(var(--hud-scale,1)); transform-origin:top right; }
+.brand-mark { display:grid; place-items:center; width:43px; height:43px; color:#061018; font-family:Rajdhani,sans-serif; font-size:18px; font-weight:800; background:linear-gradient(145deg,#b5f5ff,var(--accent)); border-radius:13px; box-shadow:0 0 24px color-mix(in srgb,var(--accent) 32%,transparent); }
+.identity-copy { display:flex; flex:1; min-width:0; flex-direction:column; }
+.identity-copy strong { overflow:hidden; font-size:13px; text-overflow:ellipsis; white-space:nowrap; }
+.identity-copy>span { display:flex; gap:6px; align-items:center; margin-top:3px; }
+.identity-copy em,.identity-id small { color:var(--ui-muted); font-size:9px; font-style:normal; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+.identity-copy i { padding:2px 5px; color:#071018; background:#55d6c2; border-radius:99px; font-size:7px; font-style:normal; font-weight:900; letter-spacing:.06em; }
+.identity-copy i.off-duty { color:#ffd6dc; background:rgba(255,85,118,.22); box-shadow:inset 0 0 0 1px rgba(255,85,118,.35); }
+.identity-id { display:flex; flex-direction:column; align-items:center; min-width:38px; padding-left:11px; border-left:1px solid rgba(255,255,255,.09); }
+.identity-id strong { font-family:Rajdhani,sans-serif; font-size:19px; }
+.economy { top:calc(var(--safe-y) + 74px); right:var(--safe-x); gap:14px; padding:10px 14px; border-radius:14px; transform:translate(var(--drag-x,0),var(--drag-y,0)) scale(var(--hud-scale,1)); transform-origin:top right; }
+.economy>div { display:flex; gap:8px; align-items:center; }
+.economy p { display:flex; margin:0; flex-direction:column; }
+.economy small { color:#7f90a8; font-size:8px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+.economy strong { margin-top:2px; font-family:Rajdhani,sans-serif; font-size:15px; }
+.economy>i { width:1px; height:28px; background:rgba(255,255,255,.09); }
+.money-icon,.bank-icon { display:grid; place-items:center; width:28px; height:28px; color:#67edb2; background:rgba(59,230,155,.11); border-radius:9px; font-weight:800; }
+.bank-icon { color:#74a9ff; background:rgba(85,139,255,.12); font-size:10px; }
+.location { top:calc(var(--safe-y) + 196px); right:var(--safe-x); bottom:auto; left:auto; gap:11px; max-width:330px; padding:10px 14px; border-radius:13px; transform:translate(var(--drag-x,0),var(--drag-y,0)) scale(var(--hud-scale,1)); transform-origin:top right; }
+.location .compass { display:grid; place-items:center; width:37px; height:37px; color:var(--accent); font-family:Rajdhani,sans-serif; font-size:16px; font-weight:800; background:rgba(102,227,255,.09); border-radius:10px; }
+.location div { display:flex; min-width:0; flex-direction:column; }
+.location strong { overflow:hidden; font-size:12px; text-overflow:ellipsis; white-space:nowrap; }
+.location small { overflow:hidden; margin-top:3px; color:#8495ad; font-size:9px; text-overflow:ellipsis; white-space:nowrap; }
+.status-row { position:absolute; top:calc(var(--safe-y) + 138px); right:var(--safe-x); display:flex; gap:7px; align-items:center; min-height:48px; padding:8px 10px; border-radius:14px; transform:translate(var(--drag-x,0),var(--drag-y,0)) scale(var(--hud-scale,1)); transform-origin:top right; }
+.hud.map-active .location { top:calc(var(--safe-y) + 196px); right:var(--safe-x); bottom:auto; left:auto; }
+.status { --color:white; display:flex; gap:5px; align-items:center; min-width:40px; }
+.status .icon { display:grid; place-items:center; width:27px; height:27px; color:var(--color); background:color-mix(in srgb,var(--color) 12%,transparent); border-radius:9px; font-size:12px; font-weight:800; }
+.status>i { display:none; }
+.status i b { display:block; width:var(--value,100%); height:100%; background:var(--color); border-radius:inherit; box-shadow:0 0 8px var(--color); transition:width .3s ease; }
+.status small { color:#a4b0c2; font-family:Rajdhani,sans-serif; font-size:11px; line-height:1; }
+.health{--color:var(--health)}.armor{--color:var(--armor)}.hunger{--color:var(--hunger)}.thirst{--color:var(--thirst)}.stamina{--color:var(--stamina)}.oxygen{--color:var(--oxygen)}
+.voice { display:flex; gap:8px; align-items:center; margin-left:2px; padding-left:11px; border-left:1px solid rgba(255,255,255,.1); }
+.voice>span { display:grid; place-items:center; width:30px; height:30px; color:#8292a9; background:rgba(255,255,255,.06); border-radius:50%; transition:.2s; }
+.voice.talking>span { color:#061018; background:var(--accent); box-shadow:0 0 18px color-mix(in srgb,var(--accent) 48%,transparent); transform:scale(1.06); }
+.voice div { display:flex; flex-direction:column; }
+.voice strong { font-size:8px; letter-spacing:.12em; }
+.voice small { margin-top:2px; color:#8292a9; font-size:8px; }
+.vehicle { position:absolute; right:var(--safe-x); bottom:var(--safe-y); display:grid; grid-template-columns:auto minmax(145px,1fr) auto auto; gap:18px; align-items:end; min-width:535px; padding:22px 22px 16px; overflow:hidden; opacity:var(--vehicle-opacity,.94); border-radius:5px 20px 5px 20px; clip-path:polygon(4% 0,100% 0,100% 78%,96% 100%,0 100%,0 24%); transform:translate(var(--drag-x,0),var(--drag-y,0)) scale(calc(var(--hud-scale,1) * var(--vehicle-scale,1))); transform-origin:bottom right; }
+
+.settings-panel { position:fixed; z-index:100; top:50%; left:50%; display:flex; width:min(430px,92vw); max-height:88vh; overflow:hidden; color:#f5f8ff; background:linear-gradient(150deg,#111b2a,#080e18); border:1px solid rgba(102,227,255,.25); border-radius:20px; box-shadow:0 28px 80px rgba(0,0,0,.55); flex-direction:column; transform:translate(-50%,-50%); }
+.settings-panel header { display:flex; align-items:center; justify-content:space-between; padding:20px 21px; border-bottom:1px solid rgba(255,255,255,.08); }
+.settings-panel header small { color:var(--accent); font-size:9px; font-weight:900; letter-spacing:.16em; }.settings-panel h1{margin:3px 0 0;font-size:22px}.settings-panel h2{margin:0 0 14px;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.settings-panel header button { width:34px;height:34px;color:#93a3b8;background:rgba(255,255,255,.05);border:0;border-radius:10px;font-size:22px;cursor:pointer }
+.settings-content { display:grid; gap:1px; overflow:auto; background:rgba(255,255,255,.06); }.settings-content section{display:grid;gap:12px;padding:18px 21px;background:#0c1421}
+.range-setting,.color-setting { display:grid;gap:9px;color:#b3bfd0;font-size:11px }.range-setting>span,.color-setting{display:flex;align-items:center;justify-content:space-between}.range-setting output{color:var(--accent);font-family:Rajdhani;font-weight:800}.range-setting input{width:100%;accent-color:var(--accent)}
+.color-setting input{width:44px;height:28px;padding:2px;background:#111b2a;border:1px solid rgba(255,255,255,.12);border-radius:8px}
+.select-setting{display:flex;align-items:center;justify-content:space-between;color:#b3bfd0;font-size:11px}.select-setting select{min-width:130px;padding:8px 10px;color:#e8f3ff;background:#111d2d;border:1px solid rgba(255,255,255,.12);border-radius:8px;font-size:10px}
+.toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toggle-grid label{display:flex;gap:8px;align-items:center;padding:10px;color:#aab7ca;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:9px;font-size:10px}.toggle-grid input{accent-color:var(--accent)}
+.settings-panel footer{display:flex;justify-content:flex-end;gap:9px;padding:15px 20px;border-top:1px solid rgba(255,255,255,.08)}.settings-panel footer button{padding:10px 14px;color:#aebacc;background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:9px;font-size:11px;font-weight:800;cursor:pointer}.settings-panel footer .primary{color:#061018;background:var(--accent);border-color:var(--accent)}
+.settings-panel footer .save-toast{margin-right:auto;align-self:center;color:#7dffb0;font-size:11px;font-weight:800;opacity:0;transition:opacity .25s ease;pointer-events:none}
+.settings-panel footer .save-toast.visible{opacity:1}
+.layout-button{width:100%;padding:11px;color:#dff7ff;background:rgba(102,227,255,.1);border:1px solid rgba(102,227,255,.25);border-radius:10px;font-size:10px;font-weight:850;cursor:pointer}.layout-toolbar{position:fixed;z-index:150;top:20px;left:50%;display:flex;gap:14px;align-items:center;padding:9px 10px 9px 15px;color:#dcecff;background:#071423;border:1px solid rgba(102,227,255,.35);border-radius:12px;box-shadow:0 12px 35px rgba(0,0,0,.35);transform:translateX(-50%)}.layout-toolbar span{font-size:10px}.layout-toolbar button{padding:8px 12px;color:#061018;background:var(--accent);border:0;border-radius:8px;font-size:9px;font-weight:900;cursor:pointer}
+.hud-layout-mode :is(.identity,.economy,.location,.status-row){display:flex!important}
+.hud-layout-mode .vehicle{display:grid!important}
+.hud-layout-mode .map-frame{display:block!important;border:1px dashed rgba(102,227,255,.65);background:rgba(20,55,85,.15)}
+.hud-layout-mode .status{display:flex!important}
+.hud-layout-mode :is(.identity,.economy,.location,.status-row,.vehicle,.map-frame){pointer-events:auto;cursor:move;outline:1px dashed rgba(102,227,255,.5);outline-offset:4px}
+.hud-layout-mode :is(.identity,.economy,.location,.status-row,.vehicle,.map-frame):hover{filter:brightness(1.16)}
+.hud-layout-mode .location{cursor:not-allowed;outline-style:solid;opacity:.78}
+.vehicle::before { position:absolute; top:0; left:4%; width:50%; height:2px; content:""; background:linear-gradient(90deg,var(--accent),transparent); box-shadow:0 0 13px var(--accent); }
+.shift-lights { position:absolute; top:7px; left:50%; display:flex; gap:5px; transform:translateX(-50%); }
+.shift-lights i { width:17px; height:3px; background:rgba(255,255,255,.09); transform:skewX(-22deg); }
+.shift-lights i.active { background:var(--accent); box-shadow:0 0 7px var(--accent); }
+.shift-lights i.active:nth-last-child(-n+3) { background:#ff4f81; box-shadow:0 0 8px #ff4f81; }
+.gauge-dial{display:none}
+.speed { display:flex; align-items:flex-end; }
+.speed strong { width:94px; font-family:Rajdhani,sans-serif; font-size:58px; font-style:italic; font-variant-numeric:tabular-nums; line-height:.76; letter-spacing:-.06em; text-align:right; text-shadow:0 0 20px rgba(255,255,255,.16); }
+.speed small { margin:0 0 3px 7px; color:#8190a7; font-size:8px; font-weight:800; }
+.vehicle-center { display:flex; gap:7px; flex-direction:column; }
+.rpm-label { display:flex; align-items:center; justify-content:space-between; color:#7d8ba0; font-family:Rajdhani,sans-serif; font-size:8px; font-weight:800; letter-spacing:.14em; }
+.rpm-label small { font-size:7px; }
+.rpm { position:relative; height:9px; overflow:hidden; background:repeating-linear-gradient(90deg,rgba(255,255,255,.1) 0 13px,transparent 13px 17px); transform:skewX(-18deg); }
+.rpm i { display:block; width:0; height:100%; background:linear-gradient(90deg,var(--accent) 0 58%,#b98cff 72%,#ff4f81 100%); box-shadow:0 0 10px var(--accent); transition:width .12s linear; }
+.vehicle-flags { display:flex; gap:8px; color:#67758b; font-size:7px; font-weight:800; letter-spacing:.08em; }
+.vehicle-flags .active { color:#70e7b3; }.vehicle-flags .warning { color:#ffbd59; }
+.gear { display:flex; align-items:center; flex-direction:column; }
+.gear small,.fuel small { color:#75859d; font-size:7px; font-weight:800; letter-spacing:.1em; }
+.gear strong { color:var(--accent); font-family:Rajdhani,sans-serif; font-size:38px; font-style:italic; line-height:.9; text-shadow:0 0 14px rgba(102,227,255,.3); }
+.fuel { display:flex; gap:8px; align-items:center; min-width:74px; }
+.fuel>span { color:#ffbd59; }.fuel div { display:flex; flex-direction:column; }.fuel strong { margin-top:2px; font-family:Rajdhani,sans-serif; font-size:17px; }
+.vehicle.hide-rpm :is(.shift-lights,.rpm-label,.rpm){display:none}.vehicle.hide-gear .gear{display:none}.vehicle.hide-fuel .fuel{display:none}
+.vehicle.style-compact{grid-template-columns:auto minmax(100px,1fr) auto auto;gap:12px;min-width:410px;padding:18px 18px 13px;border-radius:14px;clip-path:none}.vehicle.style-compact .speed strong{width:78px;font-size:46px}.vehicle.style-compact .shift-lights{display:none}.vehicle.style-compact .rpm-label{display:none}.vehicle.style-compact .gear strong{font-size:31px}
+.vehicle.style-minimal{grid-template-columns:auto auto auto;gap:14px;min-width:0;padding:12px 15px;background:rgba(7,22,40,.9);border-radius:12px;clip-path:none}.vehicle.style-minimal::before,.vehicle.style-minimal .vehicle-center,.vehicle.style-minimal .shift-lights{display:none}.vehicle.style-minimal .speed strong{width:72px;font-size:42px}.vehicle.style-minimal .fuel{min-width:60px}.vehicle.style-minimal .gear strong{font-size:30px}
+/* Compte-tours (style "gauge") — bloc consolidé, plusieurs itérations précédentes cascadaient les unes sur les autres sans effet visuel (voir hexa_hud proposition #1). */
+.vehicle.style-gauge{display:flex;gap:13px;align-items:flex-end;min-width:0;padding:5px 9px 7px;background:transparent;border:0;box-shadow:none;clip-path:none;overflow:visible}
+.vehicle.style-gauge::before,.vehicle.style-gauge>.speed,.vehicle.style-gauge>.vehicle-center,.vehicle.style-gauge>.gear,.vehicle.style-gauge>.shift-lights{display:none}
+.vehicle.style-gauge .gauge-dial{position:relative;display:block;place-items:center;width:210px;height:210px;color:#f5f8ff;background:#07131f;border:0;border-radius:50%;box-shadow:0 16px 38px rgba(0,0,0,.5),0 0 0 1px rgba(118,158,190,.18);grid-template-rows:1fr auto auto auto 1fr;isolation:isolate;transition:--rpm-angle .2s linear,filter .25s ease;border-width:6px;overflow:hidden}
+.gauge-dial>span{align-self:end;color:#70839d;font-size:7px;font-weight:900;letter-spacing:.15em}
+.gauge-dial>strong{font-family:Rajdhani,sans-serif;font-size:43px;font-style:italic;line-height:.9}
+.gauge-dial>small{color:#8291a7;font-size:7px;font-weight:850}
+.gauge-dial>em{margin-top:4px;color:var(--accent);font-family:Rajdhani,sans-serif;font-size:22px;font-style:normal;font-weight:900}
+.gauge-needle{position:absolute;left:50%;bottom:50%;width:2px;height:53px;background:linear-gradient(var(--accent),transparent);box-shadow:0 0 8px var(--accent);transform:rotate(calc(-130deg + var(--rpm-angle,0deg)));transform-origin:bottom center}
+.vehicle.style-gauge>.fuel{position:absolute;right:auto;bottom:10px;padding:0;background:transparent;border:0;border-radius:9px;backdrop-filter:none;box-shadow:none;min-width:0;transform:translateX(-50%) scale(.78);transform-origin:bottom center;left:50%;justify-content:center;z-index:6;gap:5px}
+.vehicle.style-gauge.hide-rpm .gauge-needle{display:none}
+.vehicle.style-gauge.hide-gear .gauge-dial>em{visibility:hidden}
+.vehicle.style-gauge .gauge-dial::before{position:absolute;z-index:1;inset:8px;content:"";background:radial-gradient(circle,#081522 0 80%,transparent 81%),repeating-conic-gradient(from 230deg,rgba(201,219,234,.68) 0 1deg,transparent 1.5deg 13deg);border-radius:50%;opacity:.72;mask:none;-webkit-mask:none;display:none}
+.vehicle.style-gauge .gauge-dial::after{position:absolute;z-index:5;top:50%;left:50%;width:10px;height:10px;content:"";background:#081725;border:3px solid #e6f2fa;border-radius:50%;box-shadow:0 0 0 3px rgba(8,23,37,.7);transform:translate(-50%,-50%)}
+.vehicle.style-gauge .gauge-dial>:not(.gauge-needle){position:relative;z-index:2}
+.vehicle.style-gauge .gauge-needle{z-index:3;width:3px;height:71px;border-radius:3px;background:linear-gradient(to top,#f4fbff 0 9%,var(--accent) 30% 88%,transparent);transition:transform .18s cubic-bezier(.2,.7,.3,1);will-change:transform;bottom:50%;box-shadow:0 0 8px color-mix(in srgb,var(--accent) 62%,transparent);transform-origin:bottom center;position:absolute;left:50%;transform:rotate(calc(-130deg + var(--rpm-angle,0deg)))}
+.vehicle.style-gauge .gauge-dial>strong{letter-spacing:-.055em;text-shadow:0 4px 15px rgba(0,0,0,.7);font-size:40px;line-height:1;transform:none;z-index:4;position:absolute !important;top:59px;left:0;width:100%;text-align:center}
+.vehicle.style-gauge .gauge-dial>em{padding:2px 7px;background:rgba(17,39,58,.86);border:1px solid rgba(137,174,203,.2);border-radius:7px;box-shadow:none;margin-top:13px;color:#edf6fc;font-size:21px;line-height:1;text-shadow:none;z-index:4;align-self:start;position:absolute !important;top:132px;left:50%;min-width:25px;margin:0;text-align:center;transform:translateX(-50%)}
+.vehicle.style-gauge .gauge-dial>span{margin-bottom:6px;color:#74899d;font-size:7px;letter-spacing:.2em;z-index:4;align-self:end;transform:none;position:absolute !important;top:49px;left:0;width:100%;margin:0;font-weight:900;text-align:center}
+.vehicle.style-gauge .gauge-dial>small{margin-top:5px;color:#8da1b4;font-size:7px;letter-spacing:.14em;transform:none;z-index:4;position:absolute !important;top:116px;left:0;width:100%;margin:0;font-weight:850;text-align:center}
+.vehicle.style-gauge>.fuel small{display:none}
+.vehicle.style-gauge>.fuel strong{font-size:13px}
+.gauge-marks{position:absolute;z-index:2;inset:0;border-radius:50%;pointer-events:none;display:none !important}
+.gauge-marks i{position:absolute;inset:11px;display:block;width:auto;height:auto;background:none;transform-origin:50% 50%}
+.gauge-marks i::before{position:absolute;top:0;left:50%;width:1px;height:5px;content:"";background:rgba(177,198,216,.46);border-radius:2px;transform:translateX(-50%)}
+.gauge-marks i.major{width:auto;height:auto;background:none}
+.gauge-marks i.major::before{width:2px;height:8px;background:rgba(223,237,248,.72)}
+.vehicle.style-gauge>.fuel>span{font-size:9px}
+.vehicle.style-gauge .gauge-dial>:not(.gauge-needle):not(.gauge-marks){z-index:3}
+.vehicle.style-gauge .gauge-dial>.gauge-face{position:absolute !important;z-index:1 !important;inset:0;width:100%;height:100%}
+.vehicle.style-gauge .gauge-ring{fill:none;stroke:rgba(78,113,143,.32);stroke-width:4}
+.vehicle.style-gauge .gauge-ticks{fill:none;stroke:rgba(205,224,238,.46);stroke-width:2;stroke-linecap:round;stroke-dasharray:1 4}
+.vehicle.style-gauge .gauge-arc{fill:none;stroke:rgba(116,145,169,.28);stroke-width:2;stroke-linecap:round}
+.tach-bezel{fill:#07131f;stroke:#173149;stroke-width:7}
+.tach-face{fill:none;stroke:rgba(104,137,163,.28);stroke-width:1}
+.tach-track{fill:none;stroke:rgba(202,220,233,.58);stroke-width:4;stroke-linecap:round;stroke-dasharray:1.35 2.815}
+.tach-numbers text{fill:#91a5b8;font-family:Rajdhani,sans-serif;font-size:10px;font-weight:700;text-anchor:middle;dominant-baseline:middle}
+.tach-numbers text:nth-last-child(-n+2){fill:#d3dee7}
+.tach-caption{fill:#52697e;font-family:Inter,sans-serif;font-size:6px;font-weight:800;letter-spacing:1px;text-anchor:middle}
+.fuel>span{display:grid;place-items:center}
+.fuel>span svg{width:15px;height:15px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vehicle.low-fuel .fuel>span,.vehicle.low-fuel .fuel strong{color:#ff5576;text-shadow:0 0 8px rgba(255,85,118,.38)}
+.vehicle-flags #seatbelt{display:inline-flex;gap:4px;align-items:center}
+.vehicle-flags #seatbelt svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.vehicle-flags #seatbelt b{font:inherit;letter-spacing:inherit}
+.gauge-seatbelt{position:absolute!important;z-index:6;bottom:13px;left:22px;display:grid;width:23px;height:23px;place-items:center;color:#ff5576;background:rgba(255,85,118,.1);border:1px solid rgba(255,85,118,.24);border-radius:7px;box-shadow:0 0 12px rgba(255,85,118,.1);transition:.2s ease}
+.gauge-seatbelt svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gauge-seatbelt.active{color:#68d9aa;background:rgba(104,217,170,.08);border-color:rgba(104,217,170,.16);box-shadow:none;opacity:.7}
+.vehicle.style-gauge>.fuel{right:20px;bottom:12px;left:auto;gap:5px;transform:scale(.78);transform-origin:bottom right}
+.vehicle.style-gauge>.fuel{display:none}
+.gauge-seatbelt{bottom:15px;left:57px;width:21px;height:21px;background:transparent;border:0;box-shadow:none}
+.gauge-seatbelt svg{width:16px;height:16px}
+.gauge-seatbelt.active{background:transparent;border:0;opacity:.78}
+.vehicle.style-gauge{padding-bottom:43px}
+.vehicle.style-gauge .gauge-dial{overflow:visible}
+.gauge-fuel{position:absolute!important;z-index:6;right:auto;bottom:-36px;left:50%;display:flex;gap:7px;align-items:center;padding:7px 12px;color:#ffbd59;background:linear-gradient(135deg,rgba(10,29,48,.96),rgba(5,16,29,.96));border:1px solid rgba(111,160,198,.2);border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.34);transform:translateX(-50%)}
+.gauge-fuel svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.gauge-fuel strong{color:#dce8f2;font-family:Rajdhani,sans-serif;font-size:12px}
+.vehicle.low-fuel .gauge-fuel,.vehicle.low-fuel .gauge-fuel strong{color:#ff5576;text-shadow:0 0 8px rgba(255,85,118,.38)}
+.vehicle.hide-fuel .gauge-fuel{display:none}
+.vehicle-indicators{position:absolute;right:0;bottom:calc(100% + 8px);display:flex;gap:5px;align-items:center;padding:6px 8px;background:rgba(6,19,34,.92);border:1px solid rgba(105,172,235,.18);border-radius:10px;box-shadow:0 8px 18px rgba(0,0,0,.28)}
+.vehicle-indicators i{display:grid;min-width:23px;height:22px;padding:0 5px;place-items:center;color:#50647a;background:rgba(255,255,255,.035);border-radius:6px;font-size:7px;font-style:normal;font-weight:900;transition:.18s}
+.vehicle-indicators i.active{color:#66e3ff;background:rgba(102,227,255,.12);box-shadow:0 0 10px rgba(102,227,255,.15)}
+.vehicle-indicators i[data-indicator="engine"].active,.vehicle-indicators i[data-indicator="handbrake"].active{color:#ff667f;background:rgba(255,85,118,.12)}
+.vehicle-indicators i[data-indicator="left"].active,.vehicle-indicators i[data-indicator="right"].active{color:#70e7b3;animation:indicator-blink .65s steps(1) infinite}
+@keyframes indicator-blink{50%{opacity:.25}}
+.trip-computer{position:absolute;bottom:calc(100% + 43px);left:0;display:flex;gap:10px;align-items:center;padding:7px 10px;color:#8296ab;background:rgba(6,19,34,.92);border:1px solid rgba(105,172,235,.18);border-radius:10px;font-size:7px;font-weight:850;letter-spacing:.08em}.trip-computer b{color:#e6f1f9}.trip-computer>span:not(:first-child){color:var(--accent);font-family:Rajdhani;font-size:11px}
+.special-mode{position:absolute;right:0;bottom:calc(100% + 78px);display:flex;gap:7px;align-items:center;padding:7px 10px;color:#d9e8f3;background:rgba(6,19,34,.94);border:1px solid rgba(102,227,255,.22);border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.28)}.special-mode span{color:var(--accent);font-size:8px;font-weight:900}.special-mode b{font-family:Rajdhani;font-size:14px}.special-mode small{color:#7e91a6;font-size:8px}
+.alert-stack{position:absolute;z-index:20;top:12vh;left:50%;display:flex;gap:7px;align-items:center;flex-direction:column;transform:translateX(-50%);pointer-events:none}.hud-alert{display:flex;gap:9px;align-items:center;min-width:180px;padding:9px 12px;color:#dce9f4;background:rgba(7,22,39,.94);border:1px solid rgba(255,189,89,.25);border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.3);font-size:9px;font-weight:800;animation:alert-in .22s ease}.hud-alert b{display:grid;width:23px;height:23px;place-items:center;color:#ffbd59;background:rgba(255,189,89,.1);border-radius:7px}.hud-alert.danger{border-color:rgba(255,85,118,.3)}.hud-alert.danger b{color:#ff5576;background:rgba(255,85,118,.1)}
+@keyframes alert-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.vehicle{--needle-color:var(--accent)}
+.vehicle.style-gauge .gauge-needle{background:linear-gradient(to top,#f4fbff 0 9%,var(--needle-color) 30% 88%,transparent);box-shadow:0 0 8px color-mix(in srgb,var(--needle-color) 62%,transparent)}
+.vehicle.at-redline .gauge-needle{background:linear-gradient(to top,#fff 0 9%,#ff416c 30% 88%,transparent);box-shadow:0 0 13px rgba(255,65,108,.72)}
+.vehicle.at-redline .shift-lights{filter:drop-shadow(0 0 7px #ff416c);animation:redline-pulse .35s alternate infinite}
+@keyframes redline-pulse{to{opacity:.48}}
+.layout-toolbar #layout-reset{color:#b9c8d7;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)}
+.hud-layout-mode .vehicle :is(.vehicle-indicators,.trip-computer,.special-mode){display:flex!important}
+@media(max-width:1100px){:root{--safe-x:1.2vw}.status{grid-template-columns:24px 34px;min-width:65px}.status i{width:34px}.vehicle{min-width:390px}}
+@media(max-height:700px){:root{--safe-y:2vh}.economy{top:calc(var(--safe-y) + 70px)}.location{top:calc(var(--safe-y) + 190px);bottom:auto}}
+/* Un aperçu est affiché lorsqu'on ouvre directement le fichier dans un navigateur. */
+body.browser-preview { background:radial-gradient(circle at 65% 35%,#26364c,#101722 45%,#070b11); }

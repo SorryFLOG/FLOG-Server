@@ -1,0 +1,106 @@
+[
+  {
+    "$schema": 1,
+    "name": "sorry_xoxo",
+    "master": true,
+    "password_hash": "$2a$11$PGqUTwtHY6QHy1Dp/tBab.usZgwpZ4uWmYJitr8wymjCVnA9yLxVG",
+    "providers": {
+      "citizenfx": {
+        "id": "sorry_xoxo",
+        "identifier": "fivem:19733961",
+        "data": {}
+      },
+      "discord": {
+        "id": "1173361639576313926",
+        "identifier": "discord:1173361639576313926",
+        "data": {}
+      }
+    },
+    "permissions": []
+  },
+  {
+    "$schema": 1,
+    "name": "brandyxoxo",
+    "master": false,
+    "password_hash": "$2a$11$7Dylec/BB2wMquChDhn48uQNp9zlVT0Ohmk30n6UCjzxH01emV2/2",
+    "providers": {
+      "citizenfx": {
+        "id": "brandymx",
+        "identifier": "fivem:12659558",
+        "data": {}
+      },
+      "discord": {
+        "id": "528752591912435762",
+        "identifier": "discord:528752591912435762",
+        "data": {}
+      }
+    },
+    "permissions": [
+      "all_permissions"
+    ]
+  },
+  {
+    "$schema": 1,
+    "name": "slowcrab1428",
+    "master": false,
+    "password_hash": "$2a$11$78JplZf14Q594nGkhDlsa.9CJfuprawgjpWQR8WOHucOQXCgYB1wG",
+    "providers": {
+      "citizenfx": {
+        "id": "Steve-Brom",
+        "identifier": "fivem:16065896",
+        "data": {}
+      },
+      "discord": {
+        "id": "1114524334883606581",
+        "identifier": "discord:1114524334883606581",
+        "data": {}
+      }
+    },
+    "permissions": [
+      "all_permissions"
+    ]
+  },
+  {
+    "$schema": 1,
+    "name": "thelonelyviking",
+    "master": false,
+    "password_hash": "$2a$11$lExKAL.iWXdXZt6Ji8zBtegjxuqA27/PUv/Am4OLyHZUmFJ7B3NGi",
+    "providers": {
+      "citizenfx": {
+        "id": "TheLonelyViking",
+        "identifier": "fivem:8948903",
+        "data": {}
+      },
+      "discord": {
+        "id": "685634077520429059",
+        "identifier": "discord:685634077520429059",
+        "data": {}
+      }
+    },
+    "permissions": [
+      "all_permissions"
+    ]
+  },
+  {
+    "$schema": 1,
+    "name": "je47911",
+    "master": false,
+    "password_hash": "$2a$11$sQzP/L2Qcwoi.3J3OMi1CeWPovLDJvE8VgxlRjo1DfSFbheCOUEmu",
+    "password_temporary": true,
+    "providers": {
+      "citizenfx": {
+        "id": "soulreaper28",
+        "identifier": "fivem:12653843",
+        "data": {}
+      },
+      "discord": {
+        "id": "865225621700739072",
+        "identifier": "discord:865225621700739072",
+        "data": {}
+      }
+    },
+    "permissions": [
+      "all_permissions"
+    ]
+  }
+]

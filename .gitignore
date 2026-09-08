@@ -1,0 +1,26 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Qbox / FiveM database
+**/db/
+
+# FiveM cache
+**/cache/
+**/server-cache/
+**/server-cache-priv/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# OS files
+Thumbs.db
+.DS_Store

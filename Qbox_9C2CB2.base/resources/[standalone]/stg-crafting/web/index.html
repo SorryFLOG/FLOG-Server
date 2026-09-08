@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stgscripts.com</title>
+    <link rel="stylesheet" href="../shared/themes/blue.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="stage-admin">
+        <section class="panel panel--admin" aria-label="Crafting Benches Admin">
+            <div class="panel-inner">
+                <img class="panel-bg" src="assets/img/panel_pattern.svg" alt="">
+                <img class="panel-glow" src="assets/img/panel_glow.svg" alt="">
+                <img class="panel-top-detail" src="assets/img/top-detail.png" alt="">
+
+                <div class="corner-dots corner-dots--tl">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="corner-dots corner-dots--br">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+
+                <div class="admin-body">
+                    <div class="admin-header">
+                        <h3 class="section-title admin-title">
+                            <span class="bullet"></span>
+                            <span lang-data="ui_admin_title">BENCHES</span>
+                        </h3>
+                        <button class="admin-new-btn" data-action="admin-new" type="button" lang-data="ui_admin_new">+ New</button>
+                    </div>
+                    <div class="admin-list"></div>
+                    <div class="admin-empty" lang-data="ui_admin_empty">No benches</div>
+                </div>
+
+                <div class="admin-form" aria-hidden="true">
+                    <div class="admin-form__box">
+                        <h3 class="admin-form__title"></h3>
+                        <div class="admin-form__fields">
+                            <label class="admin-field">
+                                <span class="admin-field__label" lang-data="creator_field_level">Minimum Level</span>
+                                <input class="admin-field__input" type="number" min="0" data-field="minLevel">
+                            </label>
+                            <label class="admin-field">
+                                <span class="admin-field__label" lang-data="creator_field_restriction_type">Restriction Type</span>
+                                <select class="admin-field__input" data-field="restrictionType">
+                                    <option value="job" lang-data="creator_option_job">Job</option>
+                                    <option value="gang" lang-data="creator_option_gang">Gang</option>
+                                </select>
+                            </label>
+                            <label class="admin-field">
+                                <span class="admin-field__label" lang-data="creator_field_restriction">Job / Gang Name (optional)</span>
+                                <input class="admin-field__input" type="text" data-field="restrictionName" placeholder="—">
+                            </label>
+                            <label class="admin-field">
+                                <span class="admin-field__label" lang-data="creator_field_prop">Prop Model (optional)</span>
+                                <input class="admin-field__input" type="text" data-field="propModel" placeholder="prop_tool_bench02">
+                            </label>
+                            <div class="admin-toggle" data-field="noProp">
+                                <span class="admin-toggle__box"></span>
+                                <span class="admin-toggle__label" lang-data="ui_admin_form_no_prop">No prop (box zone)</span>
+                            </div>
+                            <div class="admin-toggle" data-field="blip">
+                                <span class="admin-toggle__box"></span>
+                                <span class="admin-toggle__label" lang-data="ui_admin_form_blip">Show map blip</span>
+                            </div>
+                            <div class="admin-field admin-field--recipes">
+                                <span class="admin-field__label" lang-data="creator_field_recipes">Recipes</span>
+                                <input class="admin-field__search" type="text" lang-data-placeholder="ui_admin_form_search" placeholder="Search recipes...">
+                                <div class="admin-field__recipes"></div>
+                            </div>
+                        </div>
+                        <div class="admin-form__actions">
+                            <button class="admin-btn" data-action="admin-form-cancel" type="button" lang-data="ui_admin_confirm_cancel">Cancel</button>
+                            <button class="admin-btn" data-action="admin-form-submit" type="button" lang-data="ui_admin_form_submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-confirm" aria-hidden="true">
+                    <div class="admin-confirm__box">
+                        <h3 class="admin-confirm__title" lang-data="ui_admin_confirm_title">Delete Bench?</h3>
+                        <p class="admin-confirm__text"></p>
+                        <div class="admin-confirm__actions">
+                            <button class="admin-btn" data-action="admin-confirm-cancel" type="button" lang-data="ui_admin_confirm_cancel">Cancel</button>
+                            <button class="admin-btn admin-btn--danger" data-action="admin-confirm-yes" type="button" lang-data="ui_admin_confirm_yes">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <svg class="panel-top" viewBox="0 0 243 121" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <rect x="121.451" y="-169" width="170.867" height="170.867" transform="rotate(45 121.451 -169)" fill="url(#panel_top_p0_admin)"/>
+                    <rect x="120.821" y="-119.934" width="169.867" height="169.867" transform="rotate(45 120.821 -119.934)" class="pt-inner-fill" fill-opacity="0.07" stroke="url(#panel_top_p1_admin)"/>
+                    <defs>
+                        <linearGradient id="panel_top_p0_admin" x1="182.946" y1="-106.541" x2="291.941" y2="2.45348" gradientUnits="userSpaceOnUse">
+                            <stop class="pt-stop-1"/>
+                            <stop offset="1" class="pt-stop-0"/>
+                        </linearGradient>
+                        <linearGradient id="panel_top_p1_admin" x1="303.6" y1="63.1015" x2="215.442" y2="-14.3702" gradientUnits="userSpaceOnUse">
+                            <stop class="pt-stop-1"/>
+                            <stop offset="1" class="pt-stop-0"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="panel-top-text">
+                    <h1 class="title-main" lang-data="ui_admin_title">BENCHES</h1>
+                    <p class="title-sub" lang-data="ui_admin_subtitle">Admin</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main class="stage">
+        <section class="panel">
+            <div class="panel-inner">
+                <img class="panel-bg" src="assets/img/panel_pattern.svg" alt="">
+                <img class="panel-glow" src="assets/img/panel_glow.svg" alt="">
+                <img class="panel-top-detail" src="assets/img/top-detail.png" alt="">
+
+                <div class="corner-dots corner-dots--tl">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="corner-dots corner-dots--br">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+
+                <div class="profile-card" aria-label="Crafter Profile">
+                    <div class="profile-card__avatar">
+                        <img class="profile-card__mugshot" src="" alt="">
+                        <span class="profile-card__initials"></span>
+                        <span class="profile-card__ring"></span>
+                    </div>
+                    <div class="profile-card__body">
+                        <div class="profile-card__head">
+                            <span class="profile-card__name"></span>
+                            <span class="profile-card__sub" lang-data="ui_profile_subtitle">CRAFTER</span>
+                        </div>
+                        <div class="profile-card__level">
+                            <div class="profile-card__level-row">
+                                <span class="profile-card__level-tag" lang-data="ui_profile_level">LVL</span>
+                                <span class="profile-card__level-num">0</span>
+                                <span class="profile-card__xp-text">0 / 0 XP</span>
+                            </div>
+                            <div class="profile-card__bar">
+                                <span class="profile-card__bar-fill"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="body-top">
+                        <div class="left-col">
+                            <div class="item-head">
+                                <span class="bullet"></span>
+                                <div class="item-head__text">
+                                    <div class="item-head__title">
+                                        <h2 class="item-name"></h2>
+                                        <span class="item-level-pill" aria-hidden="true">
+                                            <span class="item-level-pill__tag" lang-data="ui_profile_level">LVL</span>
+                                            <span class="item-level-pill__num">0</span>
+                                        </span>
+                                    </div>
+                                    <p class="item-desc"></p>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <h3 class="section-title">
+                                    <span class="bullet"></span>
+                                    <span lang-data="ui_needs_for_crafting">NEEDS FOR CRAFTING</span>
+                                </h3>
+                                <div class="ingredients"></div>
+                            </div>
+                        </div>
+
+                        <div class="right-col">
+                            <div class="product">
+                                <svg class="product-bg" viewBox="0 0 628 628" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                                    <g filter="url(#product_bg_shadow)">
+                                        <rect x="313.72" y="154" width="220.222" height="220.222" transform="rotate(45 313.72 154)" fill="url(#product_bg_p0)" fill-opacity="0.07"/>
+                                        <rect x="313.72" y="154.707" width="219.222" height="219.222" transform="rotate(45 313.72 154.707)" stroke="url(#product_bg_p1)"/>
+                                    </g>
+                                    <rect x="313.721" y="118.149" width="219.222" height="219.222" transform="rotate(45 313.721 118.149)" fill="url(#product_bg_p2)" fill-opacity="0.15" stroke="url(#product_bg_p3)"/>
+                                    <defs>
+                                        <filter id="product_bg_shadow" x="0" y="0" width="627.441" height="627.441" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feOffset dy="4"/>
+                                            <feGaussianBlur stdDeviation="79" result="blur"/>
+                                            <feFlood class="pb-shadow-flood" flood-opacity="0.25" result="flood"/>
+                                            <feComposite in="flood" in2="blur" operator="in" result="colored"/>
+                                            <feBlend mode="normal" in="colored" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+                                        </filter>
+                                        <radialGradient id="product_bg_p0" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(423.831 264.111) rotate(15.7879) scale(168.642)">
+                                            <stop class="pb-stop-1"/>
+                                            <stop offset="1" class="pb-stop-0"/>
+                                        </radialGradient>
+                                        <linearGradient id="product_bg_p1" x1="537.792" y1="378.557" x2="423.346" y2="264.111" gradientUnits="userSpaceOnUse">
+                                            <stop class="pb-stop-1"/>
+                                            <stop offset="1" class="pb-stop-0"/>
+                                        </linearGradient>
+                                        <linearGradient id="product_bg_p2" x1="423.589" y1="227.31" x2="533.996" y2="337.716" gradientUnits="userSpaceOnUse">
+                                            <stop class="pb-stop-0"/>
+                                            <stop offset="1" class="pb-stop-1"/>
+                                        </linearGradient>
+                                        <linearGradient id="product_bg_p3" x1="537.792" y1="341.998" x2="454.852" y2="259.059" gradientUnits="userSpaceOnUse">
+                                            <stop class="pb-stop-1"/>
+                                            <stop offset="1" class="pb-stop-0"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <img class="product-image" src="" alt="">
+                            </div>
+
+                            <button class="btn-craft" data-action="craft" type="button">
+                                <span class="btn-craft__inner" lang-data="ui_craft_button">Craft</span>
+                            </button>
+
+                            <div class="time-row">
+                                <span class="time-row__label" lang-data="ui_crafting_time">Crafting time</span>
+                                <span class="time-row__pill"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section section--carousel">
+                        <h3 class="section-title">
+                            <span class="bullet"></span>
+                            <span lang-data="ui_what_can_craft">WHAT CAN I CRAFT?</span>
+                        </h3>
+                        <div class="carousel">
+                            <button class="arrow arrow--prev" data-action="prev" type="button">
+                                <img src="assets/img/arrow_left.svg" alt="">
+                            </button>
+                            <div class="recipes"></div>
+                            <button class="arrow arrow--next" data-action="next" type="button">
+                                <img src="assets/img/arrow_left.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <svg class="panel-top" viewBox="0 0 243 121" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <rect x="121.451" y="-169" width="170.867" height="170.867" transform="rotate(45 121.451 -169)" fill="url(#panel_top_p0)"/>
+                    <rect x="120.821" y="-119.934" width="169.867" height="169.867" transform="rotate(45 120.821 -119.934)" class="pt-inner-fill" fill-opacity="0.07" stroke="url(#panel_top_p1)"/>
+                    <defs>
+                        <linearGradient id="panel_top_p0" x1="182.946" y1="-106.541" x2="291.941" y2="2.45348" gradientUnits="userSpaceOnUse">
+                            <stop class="pt-stop-1"/>
+                            <stop offset="1" class="pt-stop-0"/>
+                        </linearGradient>
+                        <linearGradient id="panel_top_p1" x1="303.6" y1="63.1015" x2="215.442" y2="-14.3702" gradientUnits="userSpaceOnUse">
+                            <stop class="pt-stop-1"/>
+                            <stop offset="1" class="pt-stop-0"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="panel-top-text">
+                    <h1 class="title-main" lang-data="ui_title_bold">CRAFTING</h1>
+                    <p class="title-sub" lang-data="ui_title_light">System</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel panel--queue" aria-label="Crafting Queue">
+            <div class="panel-inner">
+                <img class="panel-bg" src="assets/img/panel_pattern.svg" alt="">
+                <img class="panel-glow" src="assets/img/panel_glow.svg" alt="">
+                <img class="panel-top-detail" src="assets/img/top-detail.png" alt="">
+
+                <div class="corner-dots corner-dots--tl">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="corner-dots corner-dots--br">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+
+                <div class="queue-body">
+                    <h3 class="section-title queue-title">
+                        <span class="bullet"></span>
+                        <span lang-data="ui_queue_title">QUEUE</span>
+                    </h3>
+                    <div class="queue-list"></div>
+                    <div class="queue-empty" lang-data="ui_queue_empty">Empty</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

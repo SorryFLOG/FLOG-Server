@@ -1,0 +1,35 @@
+/*
+    Custom theme (shared/themes/custom.css) — edit the values below to match your server's palette.
+    --theme-accent          : main accent color (borders, highlights, SVG gradients)
+    --theme-accent-text     : bright accent text color (time badge, highlights)
+    --theme-accent-dark     : darker shade of accent (title gradient end, etc.)
+    --theme-accent-stroke   : very dark shade (title text stroke)
+    --theme-btn-text        : text color on the craft button (should contrast the accent)
+    --theme-accent-rgb      : same as --theme-accent, as bare R,G,B numbers (used inside rgba())
+    --theme-accent-text-rgb : same as --theme-accent-text, as bare R,G,B numbers
+
+    The filter block below approximately recolors legacy blue SVG assets
+    (panel_pattern.svg, panel_glow.svg, arrow_left.svg). Tweak the hue-rotate
+    degree to match your accent. Remove the block if your accent stays blue.
+*/
+
+:root {
+    --theme-accent: rgb(113, 167, 234);
+    --theme-accent-text: rgb(0, 163, 255);
+    --theme-accent-dark: rgb(64, 102, 134);
+    --theme-accent-stroke: rgb(46, 60, 98);
+    --theme-btn-text: rgb(217, 228, 255);
+    --theme-accent-rgb: 113, 167, 234;
+    --theme-accent-text-rgb: 0, 163, 255;
+}
+
+.panel-bg,
+.panel-glow,
+.arrow img {
+    filter: hue-rotate(0deg);
+}
+
+.arrow--next img {
+    filter: hue-rotate(0deg);
+    transform: scaleX(-1);
+}

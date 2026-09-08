@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "general": {
+    "serverName": "FLOG RP"
+  },
+  "server": {
+    "dataPath": "C:/txData/Qbox_9C2CB2.base/"
+  },
+  "restarter": {
+    "schedule": [
+      "00:00",
+      "06:00",
+      "12:00",
+      "18:00"
+    ]
+  }
+}

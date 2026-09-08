@@ -1,0 +1,20 @@
+:root {
+    --theme-accent: rgb(255, 255, 255);
+    --theme-accent-text: rgb(255, 255, 255);
+    --theme-accent-dark: rgb(128, 128, 128);
+    --theme-accent-stroke: rgb(64, 64, 64);
+    --theme-btn-text: rgb(20, 20, 20);
+    --theme-accent-rgb: 255, 255, 255;
+    --theme-accent-text-rgb: 255, 255, 255;
+}
+
+.panel-bg,
+.panel-glow,
+.arrow img {
+    filter: grayscale(1) brightness(1.8);
+}
+
+.arrow--next img {
+    filter: grayscale(1) brightness(1.8);
+    transform: scaleX(-1);
+}

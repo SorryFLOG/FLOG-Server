@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `stg_crafting_levels` (
+    `identifier` VARCHAR(64) NOT NULL,
+    `level` INT UNSIGNED NOT NULL DEFAULT 1,
+    `xp` INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`identifier`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `stg_crafting_benches` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `data` LONGTEXT NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

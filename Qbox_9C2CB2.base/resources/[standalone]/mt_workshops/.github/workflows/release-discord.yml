@@ -1,0 +1,98 @@
+name: Release summary to Discord
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Send release summary to Discord webhook
+        uses: actions/github-script@v7
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          BANNER_IMAGE_URL: "https://dunb17ur4ymx4.cloudfront.net/packages/images/81eaaeb098b70da43463a92c3c8480a4539b0ce4.png" 
+          WEBHOOK_USERNAME: "MT Scripts"
+          WEBHOOK_AVATAR_URL: "https://cdn.discordapp.com/attachments/1014907105733517442/1350240972872880210/Logo_Gradient_Black_2K.png?ex=69e757a6&is=69e60626&hm=9fe0746aa2d48e5a0d728df9679901fa5c1d717aa7deb226eca992149d58c618&"
+        with:
+          script: |
+            const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+            const bannerUrl = process.env.BANNER_IMAGE_URL;
+            const webhookName = process.env.WEBHOOK_USERNAME;
+            const webhookAvatar = process.env.WEBHOOK_AVATAR_URL;
+
+            if (!webhookUrl) {
+              core.setFailed("Missing secret: DISCORD_WEBHOOK_URL");
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const release = context.payload.release;
+
+            const currentTag = release.tag_name;
+            const releaseName = release.name || currentTag;
+            const releaseBody = release.body || "No release description provided.";
+            const publishedAt = release.published_at || new Date().toISOString();
+            const timestamp = Math.floor(new Date(publishedAt).getTime() / 1000);
+
+            // Find the previous published release to compare files
+            const allReleases = await github.paginate(
+              github.rest.repos.listReleases,
+              { owner, repo, per_page: 100 }
+            );
+
+            const publishedReleases = allReleases
+              .filter(r => !r.draft)
+              .sort((a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+
+            const previousRelease = publishedReleases.find(r => r.id !== release.id);
+
+            let changedFiles = [];
+            if (previousRelease) {
+              const compare = await github.rest.repos.compareCommits({
+                owner,
+                repo,
+                base: `tags/${previousRelease.tag_name}`,
+                head: `tags/${currentTag}`
+              });
+              changedFiles = (compare.data.files || []).map(f => f.filename);
+            }
+
+            // Limit file list to avoid hitting Discord's 4096 character limit for description
+            let filesText = changedFiles.length > 0 
+              ? changedFiles.join('\n') 
+              : "No file changes detected.";
+            
+            if (filesText.length > 1500) {
+              filesText = filesText.slice(0, 1500) + "\n... (and more)";
+            }
+
+            const payload = {
+              username: webhookName,
+              avatar_url: webhookAvatar,
+              content: "@everyone",
+              embeds: [{
+                title: `MT Workshops - ${currentTag} (<t:${timestamp}:R>)`,
+                description: `${releaseBody}\n\n**Updated files**\n\`\`\`\n${filesText}\n\`\`\``,
+                color: 0x2b2d31, // Dark theme color
+                image: {
+                  url: bannerUrl
+                }
+              }]
+            };
+
+            const res = await fetch(webhookUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+              const text = await res.text();
+              core.setFailed(`Discord webhook failed: ${res.status} ${text}`);
+            }

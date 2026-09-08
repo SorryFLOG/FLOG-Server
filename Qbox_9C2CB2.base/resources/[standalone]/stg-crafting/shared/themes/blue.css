@@ -1,0 +1,9 @@
+:root {
+    --theme-accent: rgb(113, 167, 234);
+    --theme-accent-text: rgb(0, 163, 255);
+    --theme-accent-dark: rgb(64, 102, 134);
+    --theme-accent-stroke: rgb(46, 60, 98);
+    --theme-btn-text: rgb(217, 228, 255);
+    --theme-accent-rgb: 113, 167, 234;
+    --theme-accent-text-rgb: 0, 163, 255;
+}
